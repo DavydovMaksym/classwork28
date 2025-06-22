@@ -1,0 +1,118 @@
+#include <iostream>
+#include <cstring>
+
+class CharStack
+{
+    char* stack;
+    int capacity;
+    int top;
+
+    void resize(int newCapacity)
+    {
+        char* newStack = new char[newCapacity];
+        std::memcpy(newStack, stack, count() * sizeof(char));
+        delete[] stack;
+        stack = newStack;
+        capacity = newCapacity;
+    }
+
+public:
+    CharStack(int initialSize = 10) : capacity(initialSize), top(-1)
+    {
+        stack = new char[capacity];
+    }
+
+    ~CharStack()
+    {
+        delete[] stack;
+    }
+
+    void push(char c)
+    {
+        if (isFull())
+        {
+            resize(capacity * 2);
+        }
+        stack[++top] = c;
+    }
+
+    bool pop()
+    {
+        if (isEmpty())
+        {
+            std::cout << "Stack is empty!\n";
+            return false;
+        }
+        top--;
+        return true;
+    }
+
+    char peek() const
+    {
+        if (isEmpty())
+        {
+            std::cout << "Stack is empty!\n";
+            return '\0';
+        }
+        return stack[top];
+    }
+
+    int count() const
+    {
+        return top + 1;
+    }
+
+    bool isEmpty() const
+    {
+        return top == -1;
+    }
+
+    bool isFull() const
+    {
+        return top == capacity - 1;
+    }
+
+    void clear()
+    {
+        top = -1;
+    }
+
+    void print() const
+    {
+        if (isEmpty())
+        {
+            std::cout << "Stack is empty\n";
+            return;
+        }
+        std::cout << "Stack: ";
+        for (int i = 0; i <= top; i++)
+        {
+            std::cout << stack[i] << ' ';
+        }
+        std::cout << '\n';
+    }
+
+    int getCapacity() const
+    {
+        return capacity;
+    }
+};
+
+int main()
+{
+    CharStack s(3);
+
+    s.push('A');
+    s.push('B');
+    s.push('C');
+    s.print();
+
+    std::cout << "Capacity to add: " << s.getCapacity() << '\n';
+
+    s.push('D');
+    s.print();
+
+    std::cout << "Capacity after expansion: " << s.getCapacity() << '\n';
+
+    return 0;
+}
