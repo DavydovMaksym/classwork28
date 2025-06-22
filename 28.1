@@ -1,0 +1,98 @@
+#include <iostream>
+
+class CharStack
+{
+    static const int MAX_SIZE = 100;
+    char stack[MAX_SIZE] = {};
+    int top;
+
+public:
+    CharStack() : top(-1) {}
+
+    bool push(char c)
+    {
+        if (isFull())
+        {
+            std::cout << "Stack overflowed!\n";
+            return false;
+        }
+        stack[++top] = c;
+        return true;
+    }
+
+    bool pop()
+    {
+        if (isEmpty())
+        {
+            std::cout << "Stack is empty!\n";
+            return false;
+        }
+        top--;
+        return true;
+    }
+
+    char peek() const
+    {
+        if (isEmpty())
+        {
+            std::cout << "Stack is empty!\n";
+            return '\0';
+        }
+        return stack[top];
+    }
+
+    bool isEmpty() const
+    {
+        return top == -1;
+    }
+
+    bool isFull() const
+    {
+        return top == MAX_SIZE - 1;
+    }
+
+    int count() const
+    {
+        return top + 1;
+    }
+
+    void clear()
+    {
+        top = -1;
+    }
+
+    void print() const
+    {
+        if (isEmpty())
+        {
+            std::cout << "Stack is empty\n";
+            return;
+        }
+        std::cout << "Stack: ";
+        for (int i = 0; i <= top; i++)
+        {
+            std::cout << stack[i] << ' ';
+        }
+        std::cout << '\n';
+    }
+};
+
+int main()
+{
+    CharStack s;
+    s.push('X');
+    s.push('Y');
+    s.push('Z');
+
+    s.print();
+    std::cout << "Upper character: " << s.peek() << '\n';
+
+    s.pop();
+    s.print();
+
+    s.clear();
+    std::cout << "After cleaning:\n";
+    s.print();
+
+    return 0;
+}
